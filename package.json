@@ -1,0 +1,26 @@
+{
+  "name": "camerajs",
+  "version": "1.0.0",
+  "description": "Easily configurable web camera utility with bunch of features",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arajajyothibabu/camerajs.git"
+  },
+  "keywords": [
+    "camerajs",
+    "web",
+    "camera",
+    "user",
+    "media"
+  ],
+  "author": "Jyothi Babu Araja <arajajyothibabu@gmail.com> (https://arajajyothibabu.github.io/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arajajyothibabu/camerajs/issues"
+  },
+  "homepage": "https://github.com/arajajyothibabu/camerajs#readme"
+}
