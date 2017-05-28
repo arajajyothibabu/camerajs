@@ -16,12 +16,10 @@
             table-layout: fixed;
         }
         .left{
-            float: left;
-            width: 49%;
+            border-right: 1px solid lightblue;
         }
         .right{
-            float: left;
-            width: 49%;
+            border-left: 1px solid lightblue;
         }
         .main div {
             display: table-cell;
@@ -64,12 +62,12 @@
                 </div>
                 <div class="right">
                     <div>
-                        <img id="photo" alt="Snap Shot" />
+                        <img id="photo" alt="Snap Shot will be available here" width="100%" />
                     </div>
                 </div>
             </div>
 
-            <script src="../lib/camera.js"></script>
+            <script src="lib/camera.js"></script>
             <script>
                 var Camera = new Camera({
                     video: document.getElementById("video"),
