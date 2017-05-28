@@ -2,8 +2,6 @@
  * Created by jyothi on 18/4/17.
  */
 
-const ROOT_ELEMENT_KEY = "root";
-
 export default class Camera {
 
     constructor(options){
@@ -11,52 +9,57 @@ export default class Camera {
         this.streaming = false;
 
         this.defaultOptions = {
-            root: null,
             video: null,
             canvas: null,
             photo: null,
             playButton: null,
-            width: 320,
+            width: 360,
             height: 0
         };
 
-        this.requiredFields = [ "root", "video", "photo", "playButton" ];
+        this.requiredFields = [ "video", "photo", "playButton" ];
 
         this.options = {};
 
-        this.default = false;
-
     }
 
+    /**
+     * options from user
+     * @param options {Object}
+     */
     checkOptions = (options) => {
 
         this.options = {...this.defaultOptions, ...options, canvas};
-        if(this.options.root){
-            console.info("Root Element Defined, neglecting remaining placeholders..!");
-            this.createDefaults(true);
-        }else{
-            const { root, ...restOptions } = this.options;
-            for(let option in restOptions){
-                if(restOptions.hasOwnProperty(option)){
-                    if(!restOptions[option] && this.requiredFields.includes(option)){
-                        console.error(`Error in initializing., ${option} not defined..!`);
-                        return;
-                    }
+        const { root, ...restOptions } = this.options;
+        for(let option in restOptions){
+            if(restOptions.hasOwnProperty(option)){
+                if(!restOptions[option] && this.requiredFields.includes(option)){
+                    console.error(`Error in initializing., ${option} not defined..!`);
+                    return;
                 }
             }
-            this.createDefaults(false);
         }
+
+        this.createDefaults(); //creating defaults
+
+        this.init(); //initializing UserMedia
     };
 
-    createDefaults = (isDefault) => {
-        this.default = isDefault;
+    /**
+     * creates defualts for camera
+     */
+    createDefaults = () => {
         let canvas = document.createElement("canvas"); //this is required default
-        let { video,  } = this.options;
+        this.options.canvas = canvas;
+        //let { video, photo, playButton } = this.options;
     };
 
+    /**
+     * bootstrapping camera from browser
+     */
     init = () => {
 
-
+        const { video, photo, playButton, width, canvas } = this.options;
 
         if (navigator.mediaDevices === undefined) {
             navigator.mediaDevices = {};
@@ -80,10 +83,9 @@ export default class Camera {
         }
 
         navigator.mediaDevices.getUserMedia({
-            audio: true,
+            audio: true, //optional
             video: true
         }).then(stream => {
-            let video = document.querySelector('video');
             if ("srcObject" in video) {
                 video.srcObject = stream;
             } else {
@@ -97,21 +99,73 @@ export default class Camera {
             console.log(err.name + ": " + err.message);
         });
 
-    }
+        video.addEventListener('canplay', (e) => {
+            if (!this.streaming) {
+
+                let height = video.videoHeight / (video.videoWidth/width);
+
+                // Firefox currently has a bug where the height can't be read from
+                // the video, so we will make assumptions if this happens.
+
+                if (isNaN(height)) {
+                    height = width / (4/3);
+                }
+
+                this.options.height = height;
+
+                video.setAttribute('width', width);
+                video.setAttribute('height', height);
+                canvas.setAttribute('width', width);
+                canvas.setAttribute('height', height);
+                this.streaming = true;
+            }
+        }, false);
+
+        playButton.addEventListener('click', (e) => {
+            this.takeSnapShot();
+            e.preventDefault();
+        }, false);
+
+        this.clearImage();
+
+    };
+
+    /**
+     * takes snapshot from stream
+     */
+    takeSnapShot = () => {
+
+        const { video, photo, playButton, width, canvas, height } = this.options;
+
+        let context = canvas.getContext('2d');
+
+        if (width && height) {
+            canvas.width = width;
+            canvas.height = height;
+            context.drawImage(video, 0, 0, width, height);
+
+            let imageData = canvas.toDataURL('image/png');
+            photo.setAttribute('src', imageData);
+        } else {
+            this.clearImage();
+        }
+    };
+
+    /**
+     * clears existing image from photo
+     */
+    clearImage = () => {
+
+        const { video, photo, playButton, width, canvas } = this.options;
+
+        let context = canvas.getContext('2d');
+        context.fillStyle = "#800080";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        let imageData = canvas.toDataURL('image/png');
+        photo.setAttribute('src', imageData);
+
+    };
+
 
 }
-
-(function(window){
-    var Camera = window.Camera || {};
-
-    Camera = function (options) {
-
-    };
-
-    Camera.prototype.init = function (element) {
-
-        var _this = this;
-
-
-    };
-})(window);

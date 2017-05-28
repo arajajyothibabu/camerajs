@@ -1,29 +1,42 @@
 /**
  * Created by jyothi on 21/4/17.
  */
+
+const webpack = require('webpack');
+const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
+const path = require('path');
+const env  = require('yargs').argv.env; // use --env with webpack 2
+
+const libraryName = 'Camera';
+const libraryFileName = 'camera';
+let plugins = [], outputFile;
+
+if (env === 'build') {
+    plugins.push(new UglifyJsPlugin({ minimize: true }));
+    outputFile = libraryFileName + '.min.js';
+} else {
+    outputFile = libraryFileName + '.js';
+}
+
 module.exports = {
 
     entry: './src/index.js',
     output: {
-        path: __dirname,
-        filename: './dist/bundle.js',
-        //publicPath: BUILD ? '/dist' : 'http://localhost:8080/dist',
-        //chunkFilename: '[name].js'
+        path: __dirname + '/lib',
+        filename: outputFile,
+        library: libraryName,
+        libraryTarget: 'umd'
+    },
+    resolve: {
+        modules: [path.resolve('./src')],
+        extensions: ['.js']
     },
     module: {
         loaders: [
             {
-                test: /\.css$/,
-                loader: 'style-loader!css-loader'
-            },
-            {
                 test: /\.js$/,
-                loaders: ['babel?presets[]=react,presets[]=es2015'],
+                loader: ['babel-loader?presets[]=es2015,presets[]=stage-0'],
                 exclude: /(node_modules|bower_components)/
-            },
-            {
-                test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
-                loader: 'file'
             },
             {
                 test: /\.html$/,
@@ -31,13 +44,10 @@ module.exports = {
             }
         ]
     },
-    /*devServer: {
+    devServer: {
         contentBase: '.',
-        stats: {
-            modules: false,
-            cached: true,
-            colors: true,
-            chunk: false
-        }
-    }*/
-}
+        port: 3456,
+        inline: true
+    },
+    plugins: plugins
+};

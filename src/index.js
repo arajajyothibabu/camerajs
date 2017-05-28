@@ -1,4 +1,4 @@
 /**
- * Created by jyothi on 18/4/17.
+ * Created by jyothi on 28/5/17.
  */
-module.exports = {}
+module.exports = require('./camera').default

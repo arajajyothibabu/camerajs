@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CameraJs Demo</title>
+    <style>
+        .main{
+            width: 100%;
+            min-height: 100%;
+            margin: 0 auto;
+        }
+        .left{
+            float: left;
+            width: 49%;
+        }
+        .right{
+            float: left;
+            width: 49%;
+        }
+    </style>
+</head>
+<body>
+<h2 align="center">CameraJs Demo</h2>
+<div class="main">
+    <div class="left">
+        <div>
+            <video id="video">No Video Stream..!</video>
+            <button id="playButton">Take Snap</button>
+        </div>
+    </div>
+    <div class="right">
+        <div>
+            <img id="photo" alt="Snap Shot">
+        </div>
+    </div>
+</div>
+
+<script src="../lib/camera.js"></script>
+<script>
+    var Camera = new Camera({
+        video: document.getElementById("video"),
+        photo: document.getElementById("photo"),
+        playButton: document.getElementById("playButton")
+    });
+</script>
+</body>
+</html>
