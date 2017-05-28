@@ -21,7 +21,19 @@ export default class Camera {
 
         this.options = {};
 
+        this.start(options);
+
     }
+
+    start = (options) => {
+
+        this.checkOptions(options);
+
+        this.createDefaults(); //creating defaults
+
+        this.init(); //initializing UserMedia
+
+    };
 
     /**
      * options from user
@@ -29,20 +41,19 @@ export default class Camera {
      */
     checkOptions = (options) => {
 
-        this.options = {...this.defaultOptions, ...options, canvas};
+        this.options = {...this.defaultOptions, ...options};
         const { root, ...restOptions } = this.options;
         for(let option in restOptions){
             if(restOptions.hasOwnProperty(option)){
                 if(!restOptions[option] && this.requiredFields.includes(option)){
                     console.error(`Error in initializing., ${option} not defined..!`);
                     return;
+                }else{
+                    console.info("Options --> ", option);
                 }
             }
         }
 
-        this.createDefaults(); //creating defaults
-
-        this.init(); //initializing UserMedia
     };
 
     /**
@@ -50,8 +61,9 @@ export default class Camera {
      */
     createDefaults = () => {
         let canvas = document.createElement("canvas"); //this is required default
+        canvas.setAttribute("style", "display:none"); //hiding canvas by default
+        document.body.appendChild(canvas);
         this.options.canvas = canvas;
-        //let { video, photo, playButton } = this.options;
     };
 
     /**
