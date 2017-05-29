@@ -2,25 +2,31 @@
 
 [![npm version](https://badge.fury.io/js/camerajs.svg)](https://badge.fury.io/js/camerajs)
 
-HTML5 video utility using client camera.
+HTML5 video utility for client camera.
 
 #### Features
 - Supports ES6
 - Take a Photo
 - Video in pipeline
-- More features yet to decide
+- More features yet to come
 
 #### Usage
 - Install using NPM
 
-        `npm install camerajs --save`
+        npm install camerajs --save
+        
+- Import
+        
+        import Camera from 'camerajs'
 
 - Initializing Client Camera
 
-        `var Camera = new Camera({
+        const Camera = new Camera({
             video: VideoElement,
             photo: photoElement,
-            playButton: playButtonElement
-        });`
+            snapButton: snapButtonElement
+        });
+        
+- You can also download from `lib` folder.
 
 ###### NOTE: Library under development. Feel free to contribute :)

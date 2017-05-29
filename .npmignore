@@ -11,3 +11,5 @@ gen
 /src/
 /_layouts/
 /examples/
+*.log
+*.yml

@@ -1,8 +1,8 @@
 {
   "name": "camerajs",
-  "version": "1.0.0",
-  "description": "Easily configurable web camera utility with bunch of features",
-  "main": "src/index.js",
+  "version": "1.0.1",
+  "description": "Easily configurable web camera utility with a bunch of features.",
+  "main": "lib/camera.js",
   "scripts": {
     "build": "webpack --env build",
     "dev": "webpack --progress --colors --watch --env dev",
@@ -14,6 +14,7 @@
     "url": "git+https://github.com/arajajyothibabu/camerajs.git"
   },
   "keywords": [
+    "camera js",
     "camerajs",
     "web",
     "camera",

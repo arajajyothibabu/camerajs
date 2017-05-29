@@ -12,12 +12,12 @@ export default class Camera {
             video: null,
             canvas: null,
             photo: null,
-            playButton: null,
+            snapButton: null,
             width: 360,
             height: 0
         };
 
-        this.requiredFields = [ "video", "photo", "playButton" ];
+        this.requiredFields = [ "video", "photo", "snapButton" ];
 
         this.options = {};
 
@@ -71,7 +71,7 @@ export default class Camera {
      */
     init = () => {
 
-        const { video, photo, playButton, width, canvas } = this.options;
+        const { video, photo, snapButton, width, canvas } = this.options;
 
         if (navigator.mediaDevices === undefined) {
             navigator.mediaDevices = {};
@@ -133,7 +133,7 @@ export default class Camera {
             }
         }, false);
 
-        playButton.addEventListener('click', (e) => {
+        snapButton.addEventListener('click', (e) => {
             this.takeSnapShot();
             e.preventDefault();
         }, false);
@@ -147,7 +147,7 @@ export default class Camera {
      */
     takeSnapShot = () => {
 
-        const { video, photo, playButton, width, canvas, height } = this.options;
+        const { video, photo, snapButton, width, canvas, height } = this.options;
 
         let context = canvas.getContext('2d');
 
@@ -168,7 +168,7 @@ export default class Camera {
      */
     clearImage = () => {
 
-        const { video, photo, playButton, width, canvas } = this.options;
+        const { video, photo, snapButton, width, canvas } = this.options;
 
         let context = canvas.getContext('2d');
         context.fillStyle = "#800080";
